@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_purchase">
+
+    <fragment
+        android:id="@+id/nav_purchase"
+        android:name="com.till.paymentapplicationpoc.ui.PurchaseFragment"
+        android:label="@string/menu_purchase"
+        tools:layout="@layout/fragment_purchase" />
+
+    <fragment
+        android:id="@+id/nav_transactions"
+        android:name="com.till.paymentapplicationpoc.ui.TransactionsFragment"
+        android:label="@string/menu_transactions"
+        tools:layout="@layout/fragment_transactions">
+        <action
+            android:id="@+id/action_to_transaction_view"
+            app:destination="@id/nav_transaction"
+           >
+            <argument
+                android:name="txId"
+                app:argType="long"
+                />
+        </action>
+
+    </fragment>
+
+    <fragment android:id="@+id/nav_transaction"
+        android:name="com.till.paymentapplicationpoc.ui.TransactionFragment"
+        android:label="Tansaction"
+        tools:layout="@layout/fragment_transaction"
+        >
+        <argument
+            android:name="txId"
+            app:argType="long"
+            />
+
+    </fragment>
+
+</navigation>
