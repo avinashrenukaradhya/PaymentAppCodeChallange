@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.till.paymentapplicationpoc.R
 import com.till.paymentapplicationpoc.data.Purchase
 import com.till.paymentapplicationpoc.data.Transaction
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
 /**
  * Adapter to list transactions
  */
-class TransactionsAdapter(private val dataSet: List<Transaction>, private val onClickListener: TransactionClickListener) :
+class TransactionsAdapter @AssistedInject constructor(@Assisted private val dataSet: List<Transaction>, @Assisted private val onClickListener: TransactionClickListener) :
     RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
 
     interface TransactionClickListener {

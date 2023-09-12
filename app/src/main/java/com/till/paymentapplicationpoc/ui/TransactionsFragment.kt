@@ -13,9 +13,11 @@ import com.till.paymentapplicationpoc.R
 import com.till.paymentapplicationpoc.data.Purchase
 import com.till.paymentapplicationpoc.data.Transaction
 import com.till.paymentapplicationpoc.databinding.FragmentTransactionsBinding
+import com.till.paymentapplicationpoc.ui.adapter.TransactionAdapterFactory
 import com.till.paymentapplicationpoc.ui.adapter.TransactionsAdapter
 import com.till.paymentapplicationpoc.ui.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TransactionsFragment : Fragment(), TransactionsAdapter.TransactionClickListener {
@@ -24,6 +26,8 @@ class TransactionsFragment : Fragment(), TransactionsAdapter.TransactionClickLis
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionsAdapter
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
+    @Inject
+    lateinit var transactionAdapterFactory: TransactionAdapterFactory
 
     private val binding get() = _binding!!
 
@@ -37,11 +41,16 @@ class TransactionsFragment : Fragment(), TransactionsAdapter.TransactionClickLis
 
         val root: View = binding.root
         recyclerView = root.findViewById(R.id.transaction_list)
-        adapter = TransactionsAdapter(mainActivityViewModel.getTransactions(), this)
+        adapter = setUpAdapter(mainActivityViewModel.getTransactions(), this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
         return root
+    }
+
+    private fun setUpAdapter(dataSet: List<Transaction>,
+                             onClickListener: TransactionsAdapter.TransactionClickListener): TransactionsAdapter {
+        return transactionAdapterFactory.create(dataSet, onClickListener)
     }
 
     override fun onDestroyView() {
